@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Поздравление с 8 Марта</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            max-width: 90%;
+            transition: transform 0.3s ease-in-out;
+        }
+        .container:hover {
+            transform: scale(1.05);
+        }
+        input, button {
+            margin-top: 10px;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: none;
+        }
+        button {
+            background-color: #ff6f61;
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #e55b50;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="nameForm">
+        <h2>Введите ваше имя:</h2>
+        <input type="text" id="userName" placeholder="Ваше имя">
+        <button onclick="startTest()">Начать</button>
+    </div>
+
+    <div class="container" id="testPage" style="display:none;">
+        <h2 id="question"></h2>
+        <div id="answers"></div>
+        <button onclick="nextQuestion()">Далее</button>
+    </div>
+
+    <div class="container" id="greetingPage" style="display:none;">
+        <h2>С 8 Марта, <span id="userNameDisplay"></span>! 🌸💖</h2>
+        <p>Желаем вам счастья, любви и прекрасного настроения! 😊</p>
+        <p>Пусть каждый день будет наполнен улыбками, тёплыми словами и незабываемыми моментами! 💐✨</p>
+        <p>Вы – источник вдохновения и радости, оставайтесь такими же прекрасными! 🎉❤️</p>
+    </div>
+
+    <script>
+        let userName = "";
+        let currentQuestion = 0;
+        const questions = [
+            { text: "Как ваше настроение?", options: ["Отличное!", "Хорошее!", "Прекрасное!"] },
+            { text: "Какой цвет вам нравится?", options: ["Розовый", "Сиреневый", "Персиковый"] },
+            { text: "Что делает день лучше?", options: ["Улыбки", "Подарки", "Комплименты"] },
+            { text: "Какие цветы вам больше нравятся?", options: ["Розы", "Лилии", "Тюльпаны"] },
+            { text: "Какой ваш любимый праздник?", options: ["Новый год", "День рождения", "8 Марта"] },
+            { text: "Что приносит вам радость?", options: ["Друзья", "Музыка", "Путешествия"] }
+        ];
+
+        function startTest() {
+            userName = document.getElementById("userName").value;
+            if (userName.trim() === "") return alert("Введите имя!");
+            document.getElementById("nameForm").style.display = "none";
+            document.getElementById("testPage").style.display = "block";
+            showQuestion();
+        }
+
+        function showQuestion() {
+            document.getElementById("question").innerText = questions[currentQuestion].text;
+            let answersDiv = document.getElementById("answers");
+            answersDiv.innerHTML = "";
+            questions[currentQuestion].options.forEach(option => {
+                let btn = document.createElement("button");
+                btn.innerText = option;
+                btn.onclick = nextQuestion;
+                btn.style.display = "block";
+                btn.style.margin = "5px auto";
+                answersDiv.appendChild(btn);
+            });
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                showQuestion();
+            } else {
+                document.getElementById("testPage").style.display = "none";
+                document.getElementById("userNameDisplay").innerText = userName;
+                document.getElementById("greetingPage").style.display = "block";
+            }
+        }
+    </script>
+</body>
+</html>
